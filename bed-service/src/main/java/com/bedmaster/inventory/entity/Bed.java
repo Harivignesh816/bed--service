@@ -1,0 +1,77 @@
+package com.bedmaster.inventory.entity;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+@Entity
+@Table(name = "Bed")
+public class Bed {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer bedID;
+
+    @NotNull(message = "RoomID is required")
+    private Integer roomID;
+
+    @NotBlank(message = "Bed number cannot be empty")
+    private String bedNumber;
+
+    @NotBlank(message = "Bed type is required")
+    private String bedType;
+
+    @NotBlank(message = "Status is required")
+    private String status;
+
+    @Column(columnDefinition = "JSON")
+    private String attributesJSON;
+
+    public Integer getBedID() {
+        return bedID;
+    }
+
+    public void setBedID(Integer bedID) {
+        this.bedID = bedID;
+    }
+
+    public Integer getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(Integer roomID) {
+        this.roomID = roomID;
+    }
+
+    public String getBedNumber() {
+        return bedNumber;
+    }
+
+    public void setBedNumber(String bedNumber) {
+        this.bedNumber = bedNumber;
+    }
+
+    public String getBedType() {
+        return bedType;
+    }
+
+    public void setBedType(String bedType) {
+        this.bedType = bedType;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getAttributesJSON() {
+        return attributesJSON;
+    }
+
+    public void setAttributesJSON(String attributesJSON) {
+        this.attributesJSON = attributesJSON;
+    }
+}
