@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "Bed")
+@Table(name = "bed") // ✅ use lowercase to match DB table
 public class Bed {
 
     @Id
@@ -28,8 +28,11 @@ public class Bed {
     @NotNull(message = "Status is required")
     private BedStatus status;
 
-    @Column(columnDefinition = "JSON")
-    private String attributesJSON;
+    // ✅ FIXED: proper Java naming + DB column mapping
+    @Column(name = "attributes_json", columnDefinition = "JSON")
+    private String attributesJson;
+
+    // ===== Getters & Setters =====
 
     public Integer getBedID() {
         return bedID;
@@ -71,11 +74,12 @@ public class Bed {
         this.status = status;
     }
 
-    public String getAttributesJSON() {
-        return attributesJSON;
+    // ✅ These methods are REQUIRED by BedService
+    public String getAttributesJson() {
+        return attributesJson;
     }
 
-    public void setAttributesJSON(String attributesJSON) {
-        this.attributesJSON = attributesJSON;
+    public void setAttributesJson(String attributesJson) {
+        this.attributesJson = attributesJson;
     }
 }
