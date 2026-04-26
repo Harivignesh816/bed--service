@@ -2,13 +2,13 @@ package com.bedmaster.inventory.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.Map;
+import java.util.List;
 
 @Schema(description = "Bed response")
 public class BedResponseDTO {
 
     @Schema(description = "Bed ID", example = "300")
-    private Integer bedID;
+    private Integer bedId; // ✅ camelCase
 
     @Schema(description = "Bed number", example = "B-01")
     private String bedNumber;
@@ -19,19 +19,20 @@ public class BedResponseDTO {
     @Schema(description = "Bed status", example = "AVAILABLE")
     private String status;
 
-    // ✅ NEW: Attributes returned as JSON
     @Schema(
-            description = "Additional bed attributes",
-            example = "{\"telemetry\": true, \"bariatric\": false}"
+            description = "Enabled bed attributes only",
+            example = "[\"TelemetryBed\"]"
     )
-    private Map<String, Object> attributes;
+    private List<String> attributes;
 
-    public Integer getBedID() {
-        return bedID;
+    // ===== Getters & Setters =====
+
+    public Integer getBedId() {
+        return bedId;
     }
 
-    public void setBedID(Integer bedID) {
-        this.bedID = bedID;
+    public void setBedId(Integer bedId) {
+        this.bedId = bedId;
     }
 
     public String getBedNumber() {
@@ -58,11 +59,11 @@ public class BedResponseDTO {
         this.status = status;
     }
 
-    public Map<String, Object> getAttributes() {
+    public List<String> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(Map<String, Object> attributes) {
+    public void setAttributes(List<String> attributes) {
         this.attributes = attributes;
     }
 }

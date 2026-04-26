@@ -32,6 +32,21 @@ public class BedService {
         this.bedRepository = bedRepository;
         this.roomRepository = roomRepository;
     }
+    private List<String> extractEnabledAttributes(String attributesJson) {
+        try {
+            Map<String, Boolean> map =
+                    objectMapper.readValue(attributesJson, Map.class);
+
+            return map.entrySet()
+                    .stream()
+                    .filter(entry -> Boolean.TRUE.equals(entry.getValue()))
+                    .map(Map.Entry::getKey)
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            return List.of();
+        }
+    }
 
     public List<BedResponseDTO> getBedsByRoom(Integer roomId) {
         return bedRepository.findByRoomID(roomId)
@@ -125,19 +140,19 @@ public class BedService {
     private BedResponseDTO convertToDto(Bed bed) {
 
         BedResponseDTO dto = new BedResponseDTO();
-        dto.setBedID(bed.getBedID());
+
+        // ✅ FIXED naming
+        dto.setBedId(bed.getBedID());
+
         dto.setBedNumber(bed.getBedNumber());
         dto.setBedType(bed.getBedType().name());
         dto.setStatus(bed.getStatus().name());
 
-        // ✅ JSON → Map
+        // ✅ Boolean JSON → List<String> (only true values)
         if (bed.getAttributesJson() != null) {
-            try {
-                dto.setAttributes(
-                        objectMapper.readValue(bed.getAttributesJson(), Map.class)
-                );
-            } catch (Exception ignored) {
-            }
+            dto.setAttributes(
+                    extractEnabledAttributes(bed.getAttributesJson())
+            );
         }
 
         return dto;
